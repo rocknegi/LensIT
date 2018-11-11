@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(MyApp()); 
 
 class MyApp extends StatelessWidget {
+  camera(){
+    ImagePicker.pickImage(source: ImageSource.camera);
+  }
+    gallery(){
+    ImagePicker.pickImage(source: ImageSource.gallery);
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,13 +54,15 @@ class MyApp extends StatelessWidget {
                       child: IconButton(
                     icon: Icon(FontAwesomeIcons.images),
                     iconSize: 100,
-                    onPressed: () {},
+                    onPressed: gallery,
                   )),
                   Expanded(
                       child: IconButton(
                     icon: Icon(FontAwesomeIcons.camera),
                     iconSize: 100,
-                    onPressed: () {},
+                    onPressed: camera 
+                      
+                  ,
                   ))
                 ],
               ))),
