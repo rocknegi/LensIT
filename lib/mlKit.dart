@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'package:mlkit/mlkit.dart';
-import 'dart:async';
-
-// void main() => runApp(new Mlkit(_file));
 
 class Mlkit extends StatefulWidget {
-   final File img;
-   Mlkit(this.img);
- //const Mlkit({Key key, this.img}): super(key: key);
+  final File img;
+  Mlkit(this.img);
 
   @override
   _MyAppState createState() => new _MyAppState();
@@ -32,14 +27,12 @@ class _MyAppState extends State<Mlkit> {
     return new MaterialApp(
       home: new Scaffold(
         appBar: new AppBar(
-          title: new Text('Image Labeling Firebase'),
+          title: new Text('Lens IT'),
         ),
         body: _buildBody(_file),
         floatingActionButton: new FloatingActionButton(
           onPressed: () async {
             try {
-              // var file =
-              //     await ImagePicker.pickImage(source: ImageSource.gallery);
               setState(() {
                 _file = widget.img;
               });
@@ -53,7 +46,7 @@ class _MyAppState extends State<Mlkit> {
               print(e.toString());
             }
           },
-          child: new Icon(Icons.select_all),
+          child: new Icon(Icons.search),
         ),
       ),
     );
@@ -63,28 +56,32 @@ class _MyAppState extends State<Mlkit> {
   Widget _buildBody(File _file) {
     return new Container(
       child: new Column(
-        children: <Widget>[displaySelectedFile(_file), _buildList(_currentLabels)],
+        children: <Widget>[
+          displaySelectedFile(_file),
+          _buildList(_currentLabels)
+        ],
       ),
     );
   }
 
   Widget _buildList(List<VisionLabel> labels) {
-    if (labels == null || labels.length == 0 ) {
+    if (labels == null || labels.length == 0) {
       return new Text('Empty', textAlign: TextAlign.center);
     }
     return new Expanded(
-      child: new Container(    
+      child: new Container(
         child: new ListView.builder(
             padding: const EdgeInsets.all(1.0),
             itemCount: labels.length,
             itemBuilder: (context, i) {
-              return _buildRow(labels[i].label, labels[i].confidence.toString(), labels[i].entityID);
+              return _buildRow(labels[i].label, labels[i].confidence.toString(),
+                  labels[i].entityID);
             }),
       ),
     );
   }
 
-   Widget displaySelectedFile(File file) {
+  Widget displaySelectedFile(File file) {
     return new SizedBox(
       // height: 200.0,
       width: 150.0,
@@ -92,7 +89,7 @@ class _MyAppState extends State<Mlkit> {
           ? new Text('Sorry nothing selected!!')
           : new Image.file(file),
     );
-}
+  }
 
   //Display labels
   Widget _buildRow(String label, String confidence, String entityID) {
