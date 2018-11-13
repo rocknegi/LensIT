@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'dart:io';
 
-void main() => runApp(MyApp()); 
+import './mlKit.dart';
+
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  camera(){
-    ImagePicker.pickImage(source: ImageSource.camera);
-  }
-    gallery(){
-    ImagePicker.pickImage(source: ImageSource.gallery);
-  }
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -19,7 +18,30 @@ class MyApp extends StatelessWidget {
           brightness: Brightness.light,
           primarySwatch: Colors.deepPurple,
         ),
-        home: Scaffold(
+        home: HomeLayout());
+  }
+}
+
+class HomeLayout extends StatelessWidget{
+    camera(context) async {
+    File _file = await ImagePicker.pickImage(source: ImageSource.camera);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Mlkit(_file)),
+    );
+  }
+
+  gallery(context) async {
+    File _file = await ImagePicker.pickImage(source: ImageSource.gallery);
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => Mlkit(_file)),
+    );
+  }
+  @override
+    Widget build(BuildContext context) {
+      // TODO: implement build
+      return Scaffold(
           appBar: AppBar(
             elevation:
                 defaultTargetPlatform == TargetPlatform.android ? 5.0 : 0,
@@ -54,15 +76,13 @@ class MyApp extends StatelessWidget {
                       child: IconButton(
                     icon: Icon(FontAwesomeIcons.images),
                     iconSize: 100,
-                    onPressed: gallery,
+                    onPressed: () => gallery(context),
                   )),
                   Expanded(
                       child: IconButton(
                     icon: Icon(FontAwesomeIcons.camera),
                     iconSize: 100,
-                    onPressed: camera 
-                      
-                  ,
+                    onPressed: () => camera(context),
                   ))
                 ],
               ))),
@@ -77,6 +97,6 @@ class MyApp extends StatelessWidget {
           ),
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerDocked,
-        ));
-  }
+        );
+    }
 }
