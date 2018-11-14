@@ -1,4 +1,4 @@
-package com.example.mlkitfirebase;
+package com.example.LensIT;
 
 import android.os.Bundle;
 import io.flutter.app.FlutterActivity;
